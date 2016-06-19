@@ -1,6 +1,15 @@
 {
 	"name": "MeanMapApp",
+	"version": "1.0.0",
+	"description": "Google Map Integration",
 	"main": "server.js",
+	"scripts": {
+		"start": "node server.js" 
+	},
+	"engines":{
+		"node": "6.2.1",
+		"npm": "3.9.3"
+	},
 	"dependencies": {
 		"express"    : "~4.7.2",
         "mongoose"   : "~4.1.0",
