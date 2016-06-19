@@ -19,21 +19,27 @@ angular.module('gservice', [])
         googleMapService.clickLat  = 0;
         googleMapService.clickLong = 0;
 
-        googleMapService.refresh = function(latitude, longitude){
+        googleMapService.refresh = function(latitude, longitude, filteredResults){
 
             locations = [];
 
             selectedLat = latitude;
             selectedLong = longitude;
 
-            
-            $http.get('/users').success(function(response){
+            if(filteredResults){
+                locations = convertToMapPoints(filteredResults);
+                initialize(latitude, longitude, true);
+            }
 
-                
-                locations = convertToMapPoints(response);
+            else{
+                $http.get('/users').success(function(response){
 
-                initialize(latitude, longitude);
-            }).error(function(){});
+                    
+                    locations = convertToMapPoints(response);
+
+                    initialize(latitude, longitude, false);
+                }).error(function(){});
+            }
         };
 
         
@@ -72,7 +78,7 @@ angular.module('gservice', [])
     };
 
 
-var initialize = function(latitude, longitude) {
+var initialize = function(latitude, longitude, filter) {
 
     
     var myLatLng = {lat: selectedLat, lng: selectedLong};
@@ -87,13 +93,20 @@ var initialize = function(latitude, longitude) {
         });
     }
 
+    if(filter){
+        icon = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+    }
+    else{
+        icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+    }
+
     // Loop through each location in the array and place a marker
     locations.forEach(function(n, i){
         var marker = new google.maps.Marker({
             position: n.latlon,
             map: map,
             title: "Big Map",
-            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            icon: icon,
         });
 
         // For each marker created, add a listener that checks for clicks
