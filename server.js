@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var app = express();
 
-mongoose.connect(" mongodb://kiran:kiran8778@ds021172.mlab.com:21172/google_maps_users");
+mongoose.connect("mongodb://kiran:kiran8778@ds021172.mlab.com:21172/google_maps_users");
 
 app.use(express.static(__dirname + '/public'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
